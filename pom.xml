@@ -9,7 +9,6 @@
     <version>0</version>
 
     <modules>
-        <module>hello-world</module>
-        <module>todo-list</module>
+        <module>todo-list-service</module>
     </modules>
 </project>
