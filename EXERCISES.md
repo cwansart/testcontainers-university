@@ -7,7 +7,7 @@ You can find all exercises when you do a fulltext search for `EXERCISE`. There i
 
 ## Overview
 
-1. [EXERCISE 1: HelloWorld integration test with testcontainer on-the-fly (JUnit 5)](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceIT.java)
+1. [EXERCISE 1: TodoResource integration test with testcontainer on-the-fly (JUnit 4)](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceIT.java)
 2. [EXERCISE 2: HelloWorld cucumber test with manual container management (JUnit 4)](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceCucumberIT.java)
 3. [EXERCISE 3: DbUnit persistence test with Postgres DB (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/domain/TodoRepositoryIT.java)
 4. [EXERCISE 4: Todo-List integration test with two testcontainers (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java)
@@ -16,10 +16,10 @@ You can find all exercises when you do a fulltext search for `EXERCISE`. There i
 
 ### Exercise 1
 
-The exercise can be found in [HelloWorldResourceIT.java](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceIT.java).
+The exercise can be found in [TodoResourceIT](todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java).
 
 Todos:
-1. add `@Testcontainers` annotation to test class
+1. add `@RunWith(JUnit4.class)` annotation to test class
 2. add `GenericContainer` with `ImageFromDockerfile` & use `DockerfileBuilder`
 3. add log consumer to receive container logs
 4. get host and port from container
