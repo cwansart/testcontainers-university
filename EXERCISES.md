@@ -19,13 +19,9 @@ You can find all exercises when you do a fulltext search for `EXERCISE`. There i
 The exercise can be found in [TodoRepositoryIT](domain/TodoRepositoryIT.java).
 
 Todos:
-1. add `@RunWith(JUnit4.class)` annotation to test class
-2. add `PostgreSQLContainer` with databasename `postgres`, username `postgres` and password `postgres`
-3. add init script with path `container/init.sql`
-4. add Slf4jLogConsumer to container
-4. add JdbcUrl, DriverClassName, Username and Password to EntityManagerProviderProperties
-5. create an EntityManagerProvider instance with unitName `postgres-db` and add the EntityManagerProviderProperties
-6. fill the setUp method and instantiate TodoRepository with EntityManager
+1. Create a `PostgreSQLContainer` instance
+2. Instantiate the EntityManager in the correct way
+3. Run the test
 
 ### Exercise 2
 
