@@ -52,7 +52,7 @@ public class TodoRepositoryIT {
     }
 
     @Test
-    public void create() {
+    public void addNewTodoToDatabase() {
 
         entityManagerProvider.getEm().getTransaction().begin();
 
