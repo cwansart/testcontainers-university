@@ -39,7 +39,7 @@ Todos:
 ### Exercise 3
 
 The exercise can be found in [TodoRepositoryIT.java](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/domain/TodoRepositoryIT.java).
-The [schema for the tables](todo-list/todo-list-service/src/main/resources/docker/1-schema.sql) can be found in in the 
+The [schema for the tables](todo-list/todo-list-service/src/main/resources/docker/init.sql) can be found in in the 
 [resources/docker](todo-list/todo-list-service/src/main/resources/docker/) folder of the _todo-list-service_. 
 
 Todos:
