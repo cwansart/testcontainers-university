@@ -11,18 +11,19 @@ import java.time.LocalDateTime;
 
 @RunWith(JUnit4.class)
 public class TodoResourceIT {
+
     @Test
-    public void GetTodosReturns200WithExpectedTodos() {
+    public void getTodosShouldReturn200() {
         RestAssured
-            .when()
-            .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/")
-            .then()
-            .statusCode(200)
-            .body("size()", Matchers.is(3))
-            .body("[0].id", Matchers.equalTo(1))
-            .body("[0].name", Matchers.equalTo("Martin"))
-            .body("[0].description", Matchers.equalTo("ABC"))
-            .body("[0].status", Matchers.equalTo(true))
+                .when()
+                .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/")
+                .then()
+                .statusCode(200)
+                .body("size()", Matchers.is(3))
+                .body("[0].id", Matchers.equalTo(1))
+                .body("[0].name", Matchers.equalTo("Martin"))
+                .body("[0].description", Matchers.equalTo("ABC"))
+                .body("[0].status", Matchers.equalTo(true))
             .body("[0].dueDate", Matchers.equalTo("2020-01-10T07:30"));
     }
 

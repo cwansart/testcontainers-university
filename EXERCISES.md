@@ -7,7 +7,7 @@ You can find all exercises when you do a fulltext search for `EXERCISE`. There i
 
 ## Overview
 
-1. [EXERCISE 1: TodoResource integration test with testcontainer on-the-fly (JUnit 4)](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceIT.java)
+1. [EXERCISE 1: TodoRepository integration test with database testcontainer (JUnit 4)](domain/TodoRepositoryIT.java)
 2. [EXERCISE 2: HelloWorld cucumber test with manual container management (JUnit 4)](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceCucumberIT.java)
 3. [EXERCISE 3: DbUnit persistence test with Postgres DB (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/domain/TodoRepositoryIT.java)
 4. [EXERCISE 4: Todo-List integration test with two testcontainers (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java)
@@ -16,13 +16,16 @@ You can find all exercises when you do a fulltext search for `EXERCISE`. There i
 
 ### Exercise 1
 
-The exercise can be found in [TodoResourceIT](todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java).
+The exercise can be found in [TodoRepositoryIT](domain/TodoRepositoryIT.java).
 
 Todos:
 1. add `@RunWith(JUnit4.class)` annotation to test class
-2. add `GenericContainer` with `ImageFromDockerfile` & use `DockerfileBuilder`
-3. add log consumer to receive container logs
-4. get host and port from container
+2. add `PostgreSQLContainer` with databasename `postgres`, username `postgres` and password `postgres`
+3. add init script with path `container/init.sql`
+4. add Slf4jLogConsumer to container
+4. add JdbcUrl, DriverClassName, Username and Password to EntityManagerProviderProperties
+5. create an EntityManagerProvider instance with unitName `postgres-db` and add the EntityManagerProviderProperties
+6. fill the setUp method and instantiate TodoRepository with EntityManager
 
 ### Exercise 2
 
@@ -39,7 +42,7 @@ Todos:
 ### Exercise 3
 
 The exercise can be found in [TodoRepositoryIT.java](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/domain/TodoRepositoryIT.java).
-The [schema for the tables](todo-list/todo-list-service/src/main/resources/docker/1-schema.sql) can be found in in the 
+The [schema for the tables](todo-list/todo-list-service/src/main/resources/docker/init.sql) can be found in in the 
 [resources/docker](todo-list/todo-list-service/src/main/resources/docker/) folder of the _todo-list-service_. 
 
 Todos:

@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>de.openknowledge.fruehauf</groupId>
+    <groupId>de.openknowledge.university</groupId>
     <artifactId>todo-service</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- Dependencies -->
         <version.slf4j>1.7.30</version.slf4j>
         <version.mockito>3.3.3</version.mockito>
-        <version.rider-core>1.14.0</version.rider-core>
+        <version.database-rider>1.13.1</version.database-rider>
+        <version.eclipselink>2.7.7</version.eclipselink>
+        <version.testcontainers>1.14.3</version.testcontainers>
+        <version.postgres>42.2.13</version.postgres>
+        <version.jersey-common>3.0.0-M1</version.jersey-common>
+        <version.javax>8.0.1</version.javax>
+        <version.jackson-databsind>2.11.0</version.jackson-databsind>
+        <version.junit>4.13</version.junit>
+
+        <!-- Plugins -->
+        <version.maven.versions.plugin>2.7</version.maven.versions.plugin>
+        <version.war-plugin>3.2.3</version.war-plugin>
+        <version.surefire-plugin>3.0.0-M4</version.surefire-plugin>
     </properties>
 
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>${version.war-plugin}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -27,16 +43,50 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>${version.surefire-plugin}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${version.maven.versions.plugin}</version>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${version.postgres}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${version.testcontainers}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${version.testcontainers}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>${version.eclipselink}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.database-rider</groupId>
+            <artifactId>rider-core</artifactId>
+            <version>${version.database-rider}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>8.0.1</version>
+            <version>${version.javax}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -48,7 +98,7 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-common</artifactId>
-            <version>2.31</version>
+            <version>${version.jersey-common}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -82,19 +132,13 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.11.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.database-rider</groupId>
-            <artifactId>rider-core</artifactId>
-            <version>${version.rider-core}</version>
+            <version>${version.jackson-databsind}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
