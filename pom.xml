@@ -20,10 +20,10 @@
         <version.eclipselink>2.7.7</version.eclipselink>
         <version.testcontainers>1.14.3</version.testcontainers>
         <version.postgres>42.2.13</version.postgres>
-        <version.jersey-common>3.0.0-M1</version.jersey-common>
         <version.javax>8.0.1</version.javax>
         <version.jackson-databsind>2.11.0</version.jackson-databsind>
         <version.junit>4.13</version.junit>
+        <version.rest-assured>4.3.0</version.rest-assured>
 
         <!-- Plugins -->
         <version.maven.versions.plugin>2.7</version.maven.versions.plugin>
@@ -87,19 +87,7 @@
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>${version.javax}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <version>1.1.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-common</artifactId>
-            <version>${version.jersey-common}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -126,7 +114,7 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>4.3.0</version>
+            <version>${version.rest-assured}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -139,6 +127,20 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- These dependencies are required for unit tests to work -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.1.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>2.30.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
