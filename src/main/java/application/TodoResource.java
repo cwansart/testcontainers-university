@@ -28,13 +28,13 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TodoResource {
+
   private static final Logger LOG = LoggerFactory.getLogger(TodoResource.class);
 
   @Inject
   private TodoService todoService;
 
   public TodoResource() {
-    LOG.info("Todo Resource created");
   }
 
   public TodoResource(final TodoService todoService) {
