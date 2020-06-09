@@ -2,7 +2,7 @@ package application;
 
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDateTime;

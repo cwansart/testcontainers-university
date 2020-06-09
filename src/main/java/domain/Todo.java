@@ -13,27 +13,27 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "TAB_TODO")
+@Table(name = "tab_todo")
 public class Todo implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "COL_ID")
-    private long id;
 
-    @Column(name = "COL_NAME")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "col_id", nullable = false)
+    private Long id;
+
+    @Column(name = "col_name")
     private String name;
 
-    @Column(name = "COL_DESC")
+    @Column(name = "col_desc")
     private String description;
 
-    @Column(name = "COL_STATE")
+    @Column(name = "col_state")
     private boolean status;
 
-    @Column(name = "COL_DUE")
+    @Column(name = "col_due")
     private LocalDateTime dueDate;
 
     public Todo() {
-
     }
 
     public Todo(final long id, final String name, final String description, final boolean status, final LocalDateTime dueDate) {
@@ -51,7 +51,7 @@ public class Todo implements Serializable {
         this.dueDate = baseTodoDTO.getDueDate();
     }
 
-    public Todo(final long todoId, final BaseTodoDTO baseTodoDTO) {
+    public Todo(final Long todoId, final BaseTodoDTO baseTodoDTO) {
         this.id = todoId;
         this.name = baseTodoDTO.getName();
         this.description = baseTodoDTO.getDescription();
@@ -59,11 +59,11 @@ public class Todo implements Serializable {
         this.dueDate = baseTodoDTO.getDueDate();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

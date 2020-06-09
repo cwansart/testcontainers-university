@@ -70,7 +70,7 @@ public class TodoResource {
   @Transactional
   public Response addTodo(@Valid @NotNull(payload =  TodoValidationErrorPayload.BaseTodoNull.class) final BaseTodoDTO baseTodoDTO) {
     LOG.info("Create new todo");
-    long todoId = todoService.addTodo(baseTodoDTO);
+    Long todoId = todoService.addTodo(baseTodoDTO);
     String uri = "/api/todos/" + todoId;
     return Response.created(URI.create(uri)).build();
   }

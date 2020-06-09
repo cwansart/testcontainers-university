@@ -49,7 +49,7 @@ public class TodoService {
     return todo;
   }
 
-  public long addTodo(final BaseTodoDTO baseTodoDTO) {
+  public Long addTodo(final BaseTodoDTO baseTodoDTO) {
     LOG.info("Add todo");
     Todo todo = new Todo(baseTodoDTO);
     return todoRepository.addTodo(todo);
