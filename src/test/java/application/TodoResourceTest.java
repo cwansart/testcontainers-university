@@ -30,16 +30,16 @@ public class TodoResourceTest {
     ArrayList<FullTodoDTO> expected = new ArrayList<>();
 
     expected.add(new FullTodoDTO(1, "Bla", "Do the bla", true,
-            LocalDateTime.of(2020, Month.JANUARY, 10, 7, 30).toString()));
+            LocalDateTime.of(2020, Month.JANUARY, 10, 7, 30)));
     expected.add(new FullTodoDTO(2, "Blubb", "Do the blubb", false,
-            LocalDateTime.of(2020, Month.FEBRUARY, 20, 10, 00).toString()));
+            LocalDateTime.of(2020, Month.FEBRUARY, 20, 10, 0)));
 
     ArrayList<Todo> mock = new ArrayList<>();
 
     mock.add(new Todo(1, "Bla", "Do the bla", true,
             LocalDateTime.of(2020, Month.JANUARY, 10, 7, 30)));
     mock.add(new Todo(2, "Blubb", "Do the blubb", false,
-            LocalDateTime.of(2020, Month.FEBRUARY, 20, 10, 00)));
+            LocalDateTime.of(2020, Month.FEBRUARY, 20, 10, 0)));
 
     Mockito.doReturn(mock)
             .when(service)
@@ -56,7 +56,7 @@ public class TodoResourceTest {
             .when(service)
             .getTodoById(1);
     FullTodoDTO expected = new FullTodoDTO(1, "Bla", "Do the bla", true,
-            LocalDateTime.of(2020, Month.JANUARY, 10, 7, 30).toString());
+            LocalDateTime.of(2020, Month.JANUARY, 10, 7, 30));
 
     Response response = this.resource.getTodoById(1);
 
@@ -78,9 +78,9 @@ public class TodoResourceTest {
     Mockito.doReturn(4L)
             .when(service)
             .addTodo(new BaseTodoDTO("name", "description", true,
-                    LocalDateTime.MIN.toString()));
+                    LocalDateTime.MIN));
     Response response = this.resource.addTodo(new BaseTodoDTO("name", "description", true,
-            LocalDateTime.MIN.toString()));
+            LocalDateTime.MIN));
     assertEquals(201, response.getStatus());
     assertEquals("/api/todos/4", response.getEntity());
   }
@@ -90,9 +90,9 @@ public class TodoResourceTest {
     Mockito.doNothing()
             .when(service)
             .updateTodo(1, new BaseTodoDTO("new name", "new description", false,
-                    LocalDateTime.MIN.toString()));
+                    LocalDateTime.MIN));
     Response response = this.resource.updateTodo(1, new BaseTodoDTO("new name",
-            "new description", false, LocalDateTime.MIN.toString()));
+            "new description", false, LocalDateTime.MIN));
     assertEquals(204, response.getStatus());
   }
 
@@ -101,9 +101,9 @@ public class TodoResourceTest {
     Mockito.doThrow(new IllegalArgumentException())
             .when(service)
             .updateTodo(100, new BaseTodoDTO("new name", "new description", false,
-                    LocalDateTime.MIN.toString()));
+                    LocalDateTime.MIN));
     Response response = this.resource.updateTodo(100, new BaseTodoDTO("new name",
-            "new description", false, LocalDateTime.MIN.toString()));
+            "new description", false, LocalDateTime.MIN));
     assertEquals(404, response.getStatus());
   }
 

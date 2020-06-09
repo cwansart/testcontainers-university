@@ -48,7 +48,7 @@ public class Todo implements Serializable {
         this.name = baseTodoDTO.getName();
         this.description = baseTodoDTO.getDescription();
         this.status = baseTodoDTO.isStatus();
-        this.dueDate = LocalDateTime.parse(baseTodoDTO.getDueDate());
+        this.dueDate = baseTodoDTO.getDueDate();
     }
 
     public Todo(final long todoId, final BaseTodoDTO baseTodoDTO) {
@@ -56,7 +56,7 @@ public class Todo implements Serializable {
         this.name = baseTodoDTO.getName();
         this.description = baseTodoDTO.getDescription();
         this.status = baseTodoDTO.isStatus();
-        this.dueDate = LocalDateTime.parse(baseTodoDTO.getDueDate());
+        this.dueDate = baseTodoDTO.getDueDate();
     }
 
     public long getId() {
