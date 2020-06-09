@@ -20,7 +20,11 @@ Edit the _server.xml_ which can be found in the folder _wlp/usr/servers/defaultS
 </library>
 ```
 
-Also check the `featureManager` at the top. Make sure it has the entry `<feature>javaee-8.0</feature>`.
+Also check the `featureManager` at the top. Make sure it has the entries:
+```
+<feature>javaee-8.0</feature>
+<feature>openapi-3.1</feature>
+```
 
 After editing the server.xml file you need to download the PostgreSQL driver from [their website](https://jdbc.postgresql.org/download.html). Get the latest JDBC driver and save it in the wlp subfolder _wlp/usr/shared/resources_. You may need to create shared and its subfolders.
 
