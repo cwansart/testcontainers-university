@@ -16,7 +16,7 @@ import java.util.Objects;
 @Table(name = "TAB_TODO")
 public class Todo implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "COL_ID")
     private long id;
 

@@ -82,7 +82,8 @@ public class TodoResourceTest {
     Response response = this.resource.addTodo(new BaseTodoDTO("name", "description", true,
             LocalDateTime.MIN));
     assertEquals(201, response.getStatus());
-    assertEquals("/api/todos/4", response.getEntity());
+
+    assertEquals("/api/todos/4", response.getHeaderString("location"));
   }
 
   @Test
