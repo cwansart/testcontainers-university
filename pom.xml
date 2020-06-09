@@ -16,7 +16,7 @@
         <!-- Dependencies -->
         <version.slf4j>1.7.30</version.slf4j>
         <version.mockito>3.3.3</version.mockito>
-        <version.database-rider>1.13.1</version.database-rider>
+        <version.database-rider>1.14.0</version.database-rider>
         <version.eclipselink>2.7.7</version.eclipselink>
         <version.testcontainers>1.14.3</version.testcontainers>
         <version.postgres>42.2.13</version.postgres>
