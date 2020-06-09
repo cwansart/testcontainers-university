@@ -47,7 +47,7 @@ public class TodoRepository implements Serializable {
     public Long addTodo(final Todo todo) {
         LOG.info("Add todo");
         entityManager.persist(todo);
-        LOG.info("Created todo: {}", todo);
+        entityManager.flush();
         return todo.getId();
     }
 
