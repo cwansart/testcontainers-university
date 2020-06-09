@@ -21,6 +21,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,13 +67,12 @@ public class TodoResource {
   }
 
   @POST
-  @Produces(MediaType.TEXT_PLAIN)
   @Transactional
   public Response addTodo(@Valid @NotNull(payload =  TodoValidationErrorPayload.BaseTodoNull.class) final BaseTodoDTO baseTodoDTO) {
     LOG.info("Create new todo");
     long todoId = todoService.addTodo(baseTodoDTO);
     String uri = "/api/todos/" + todoId;
-    return Response.status(Response.Status.CREATED).entity(uri).build();
+    return Response.created(URI.create(uri)).build();
   }
 
   @PUT

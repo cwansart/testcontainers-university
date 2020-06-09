@@ -180,9 +180,8 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .when()
                 .post(INTEGRATION_TEST_URL + "/api/todos")
                 .then()
-                .contentType(MediaType.TEXT_PLAIN)
                 .statusCode(201)
-                .body(Matchers.equalTo("/api/todos/4"));
+                .header("location", Matchers.equalTo(INTEGRATION_TEST_URL + "/api/todos/4"));
     }
 
     @Test

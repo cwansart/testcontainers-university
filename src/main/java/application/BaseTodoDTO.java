@@ -1,7 +1,9 @@
 package application;
 
 import domain.TodoValidationErrorPayload;
+import infrastructure.adapters.LocalDateTimeAdapter;
 
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -19,6 +21,7 @@ public class BaseTodoDTO {
   private boolean status;
 
   @NotNull(payload = TodoValidationErrorPayload.DueDateNull.class)
+  @JsonbTypeAdapter(LocalDateTimeAdapter.class)
   private LocalDateTime dueDate;
 
   public BaseTodoDTO() {
