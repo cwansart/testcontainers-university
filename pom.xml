@@ -27,7 +27,7 @@
 
         <!-- Plugins -->
         <version.maven.versions.plugin>2.7</version.maven.versions.plugin>
-        <version.war-plugin>3.2.3</version.war-plugin>
+        <version.war-plugin>3.3.0</version.war-plugin>
         <version.surefire-plugin>3.0.0-M4</version.surefire-plugin>
     </properties>
 
