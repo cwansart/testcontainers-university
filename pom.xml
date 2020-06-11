@@ -19,7 +19,7 @@
         <version.database-rider>1.14.0</version.database-rider>
         <version.eclipselink>2.7.7</version.eclipselink>
         <version.testcontainers>1.14.3</version.testcontainers>
-        <version.postgres>42.2.13</version.postgres>
+        <version.postgres>42.2.14</version.postgres>
         <version.javax>8.0.1</version.javax>
         <version.jackson-databsind>2.11.0</version.jackson-databsind>
         <version.junit>4.13</version.junit>
