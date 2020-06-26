@@ -71,7 +71,7 @@ public class TodoResource {
   public Response addTodo(@Valid @NotNull(payload =  TodoValidationErrorPayload.BaseTodoNull.class) final BaseTodoDTO baseTodoDTO) {
     LOG.info("Create new todo");
     Long todoId = todoService.addTodo(baseTodoDTO);
-    String uri = "/api/todos/" + todoId;
+    String uri = "/todos/" + todoId;
     return Response.created(URI.create(uri)).build();
   }
 

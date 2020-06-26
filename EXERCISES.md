@@ -8,7 +8,7 @@ You can find all exercises when you do a fulltext search for `EXERCISE`. There i
 ## Overview
 
 1. [EXERCISE 1: TodoRepository integration test with database testcontainer (JUnit 4)](domain/TodoRepositoryIT.java)
-2. [EXERCISE 2: HelloWorld cucumber test with manual container management (JUnit 4)](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceCucumberIT.java)
+1. [EXERCISE 2: TodoResource integration test with database and api testcontainers (JUnit 4)](application/TodoResourceIT.java)
 3. [EXERCISE 3: DbUnit persistence test with Postgres DB (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/domain/TodoRepositoryIT.java)
 4. [EXERCISE 4: Todo-List integration test with two testcontainers (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java)
 5. [EXERCISE 5: Todo-List integration test with DockerCompose (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java)
@@ -25,15 +25,14 @@ Todos:
 
 ### Exercise 2
 
-The exercise can be found in [HelloWorldResourceCucumberIT](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceCucumberIT.java)
-while the implementation has to be done in [hello-world/Dockerfile](hello-world/Dockerfile) and in
-[HelloWorldResourceCucumberTestContainerBaseClass.java](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceCucumberTestContainerBaseClass.java)
+The exercise can be found in [TodoResourceIT](application/TodoResourceIT.java).
 
 Todos:
-1. prepare `Dockerfile`
-2. add `GenericContainer` with `ImageFromDockerfile`
-3. call start/stop
-4. get host and port from container
+1. Create a testcontainers network.
+2. Create a `PostgreSQLContainer` instance like in exercise 1. Use the network alias "database" for this container.
+3. Create another container with the API as image. Use ImageFromDockerfile().withDockerfileFromBuilder(...) with data 
+provided in [TodoResourceIT](application/TodoResourceIT.java).
+4. Run the test
 
 ### Exercise 3
 

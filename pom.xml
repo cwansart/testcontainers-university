@@ -20,13 +20,14 @@
         <version.database-rider>1.14.0</version.database-rider>
         <version.eclipselink>2.7.7</version.eclipselink>
         <version.testcontainers>1.14.3</version.testcontainers>
-        <version.postgres>42.2.13</version.postgres>
+        <version.postgresql>42.2.13</version.postgresql>
         <version.javax>8.0.1</version.javax>
         <version.jackson-databsind>2.11.0</version.jackson-databsind>
         <version.junit>4.13</version.junit>
         <version.rest-assured>4.3.0</version.rest-assured>
 
         <!-- Plugins -->
+        <version.open-liberty>20.0.0.6</version.open-liberty>
         <version.maven.versions.plugin>2.7</version.maven.versions.plugin>
         <version.war-plugin>3.2.3</version.war-plugin>
         <version.surefire-plugin>3.0.0-M4</version.surefire-plugin>
@@ -35,8 +36,74 @@
 
     <build>
         <finalName>todo-service</finalName>
-
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>copy-postgresql-dependency</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/
+                            </outputDirectory>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <useBaseVersion>true</useBaseVersion>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.postgresql</groupId>
+                                    <artifactId>postgresql</artifactId>
+                                    <version>${version.postgresql}</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.openliberty.tools</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <assemblyArtifact>
+                        <groupId>io.openliberty</groupId>
+                        <artifactId>openliberty-runtime</artifactId>
+                        <version>${version.open-liberty}</version>
+                        <type>zip</type>
+                    </assemblyArtifact>
+                    <deployPackages>project</deployPackages>
+                    <include>runnable</include>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-server</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>create</goal>
+                            <goal>install-feature</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>package-server</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -67,7 +134,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${version.postgres}</version>
+            <version>${version.postgresql}</version>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>

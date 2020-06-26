@@ -44,7 +44,7 @@ public class TodoRepositoryIT {
             .withDatabaseName("postgres")
             .withUsername("postgres")
             .withPassword("postgres")
-            .withInitScript("container/init.sql")
+            .withInitScript("init/init.sql")
             .withLogConsumer(new Slf4jLogConsumer(LOG));
 
     private static final Map<String, String> entityManagerProviderProperties = new HashMap<>();
