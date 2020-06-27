@@ -83,7 +83,7 @@ public class TodoResourceTest {
             LocalDateTime.MIN));
     assertEquals(201, response.getStatus());
 
-    assertEquals("/api/todos/4", response.getHeaderString("location"));
+    assertEquals("/todos/4", response.getHeaderString("location"));
   }
 
   @Test
