@@ -20,18 +20,20 @@
         <version.database-rider>1.14.0</version.database-rider>
         <version.eclipselink>2.7.7</version.eclipselink>
         <version.testcontainers>1.14.3</version.testcontainers>
-        <version.postgresql>42.2.13</version.postgresql>
+        <version.postgresql>42.2.14</version.postgresql>
         <version.javax>8.0.1</version.javax>
-        <version.jackson-databsind>2.11.0</version.jackson-databsind>
+        <version.jackson-databsind>2.11.1</version.jackson-databsind>
         <version.junit>4.13</version.junit>
         <version.rest-assured>4.3.0</version.rest-assured>
 
         <!-- Plugins -->
         <version.open-liberty>20.0.0.6</version.open-liberty>
+        <version.liberty-maven-plugin>3.2</version.liberty-maven-plugin>
         <version.maven.versions.plugin>2.7</version.maven.versions.plugin>
-        <version.war-plugin>3.2.3</version.war-plugin>
-        <version.surefire-plugin>3.0.0-M4</version.surefire-plugin>
-        <version.failsafe-plugin>3.0.0-M4</version.failsafe-plugin>
+        <version.war-plugin>3.3.0</version.war-plugin>
+        <version.surefire-plugin>3.0.0-M5</version.surefire-plugin>
+        <version.failsafe-plugin>3.0.0-M5</version.failsafe-plugin>
+        <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
     </properties>
 
     <build>
@@ -46,7 +48,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.10</version>
+                <version>${version.maven-dependency-plugin}</version>
                 <executions>
                     <execution>
                         <id>copy-postgresql-dependency</id>
