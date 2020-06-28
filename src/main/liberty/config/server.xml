@@ -12,11 +12,11 @@
     <variable name="default.https.port" defaultValue="9443"/>
     <variable name="app.context.root" defaultValue="todo-list-service"/>
 
-    <variable name="postgres_host" defaultValue="database"/>
-    <variable name="postgres_port" defaultValue="5432"/>
-    <variable name="postgres_database" defaultValue="postgres"/>
-    <variable name="postgres_user" defaultValue="postgres"/>
-    <variable name="postgres_password" defaultValue="postgres"/>
+    <variable name="postgres.host" defaultValue="database"/>
+    <variable name="postgres.port" defaultValue="5432"/>
+    <variable name="postgres.database" defaultValue="postgres"/>
+    <variable name="postgres.user" defaultValue="postgres"/>
+    <variable name="postgres.password" defaultValue="postgres"/>
 
     <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
 
@@ -39,11 +39,11 @@
                     javax.sql.ConnectionPoolDataSource="org.postgresql.ds.PGConnectionPoolDataSource"
                     libraryRef="postgresql-library"/>
 
-        <properties.postgresql serverName="${postgres_host}"
-                               portNumber="${postgres_port}"
-                               databaseName="${postgres_database}"
-                               user="${postgres_user}"
-                               password="${postgres_password}"/>
+        <properties.postgresql serverName="${postgres.host}"
+                               portNumber="${postgres.port}"
+                               databaseName="${postgres.database}"
+                               user="${postgres.user}"
+                               password="${postgres.password}"/>
     </dataSource>
 
     <library id="postgresql-library">

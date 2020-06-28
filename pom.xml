@@ -34,6 +34,9 @@
         <version.surefire-plugin>3.0.0-M5</version.surefire-plugin>
         <version.failsafe-plugin>3.0.0-M5</version.failsafe-plugin>
         <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
+
+        <!-- Database variables -->
+        <liberty.var.postgres.host>localhost</liberty.var.postgres.host>
     </properties>
 
     <build>

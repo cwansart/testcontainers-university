@@ -44,7 +44,7 @@ public class TodoResourceIT {
             );
 
     @ClassRule
-    public static GenericContainer<?> API_CONTAINER = new GenericContainer(
+    public static GenericContainer<?> API_CONTAINER = new GenericContainer<>(
             new ImageFromDockerfile()
                     .withDockerfileFromBuilder(builder -> builder
                             .from("openjdk:8-jre-alpine")
