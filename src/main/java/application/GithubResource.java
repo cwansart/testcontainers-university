@@ -18,7 +18,9 @@ import java.security.cert.X509Certificate;
 @Path("/github")
 public class GithubResource {
 
-  private static final String URL = "https://api.github.com/repos/cwansart/testcontainers-university";
+private static final String URL = System.getenv("IS_CONTAINERIZED") == null ?
+    "https://api.github.com/repos/cwansart/testcontainers-university" :
+    "http://mockserver/repos/cwansart/testcontainers-university";
 
   private final WebTarget target;
 
@@ -49,7 +51,7 @@ public class GithubResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getGithbData() {
+  public Response getGithubData() {
 
     GithubDTO githubResponse = this.target.request(MediaType.APPLICATION_JSON).get(
         new GenericType<GithubDTO>() {});
