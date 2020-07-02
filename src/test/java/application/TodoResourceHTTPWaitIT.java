@@ -19,15 +19,16 @@ import org.testcontainers.images.builder.ImageFromDockerfile;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeoutException;
 
 @RunWith(JUnit4.class)
-public class TodoResourceWaitIT {
+public class TodoResourceHTTPWaitIT {
 
   private static String API_URL;
 
-  private static final Logger LOG = LoggerFactory.getLogger(TodoResourceWaitIT.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TodoResourceHTTPWaitIT.class);
 
-  public static Network network = Network.newNetwork();
+  private static Network network = Network.newNetwork();
 
   @ClassRule
   public static PostgreSQLContainer<?> DATABASE_CONTAINER = new PostgreSQLContainer<>()
@@ -53,11 +54,6 @@ public class TodoResourceWaitIT {
       .withNetwork(network)
       .dependsOn(DATABASE_CONTAINER)
       .withLogConsumer(new Slf4jLogConsumer(LOG))
-      .withEnv("POSTGRES_HOST", "database")
-      .withEnv("POSTGRES_PORT", "5432")
-      .withEnv("POSTGRES_DATABASE", "postgres")
-      .withEnv("POSTGRES_USER", "postgres")
-      .withEnv("POSTGRES_PASS", "postgres")
       .waitingFor(Wait
           .forHttp("/health/ready")
           .forStatusCode(200));
@@ -70,7 +66,7 @@ public class TodoResourceWaitIT {
   }
 
   @Test
-  public void AddTodoReturns201WithExpectedString() {
+  public void AddTodoReturns201WithExpectedString() throws TimeoutException {
     RestAssured
         .given()
         .contentType(MediaType.APPLICATION_JSON)

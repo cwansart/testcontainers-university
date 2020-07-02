@@ -28,12 +28,10 @@ public class ServiceReadyCheck implements HealthCheck {
 
   @Override
   public HealthCheckResponse call() {
-
     return HealthCheckResponse
         .named(ServiceReadyCheck.class.getSimpleName())
         .withData("ready", isHealthy())
         .up()
         .build();
-
   }
 }

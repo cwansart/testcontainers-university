@@ -39,16 +39,7 @@
         <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
 
         <!-- Database variables -->
-        <!--suppress UnresolvedMavenProperty -->
-        <liberty.var.postgres.host>${env.POSTGRES_HOST}</liberty.var.postgres.host>
-        <!--suppress UnresolvedMavenProperty -->
-        <liberty.var.postgres.port>${env.POSTGRES_PORT}</liberty.var.postgres.port>
-        <!--suppress UnresolvedMavenProperty -->
-        <liberty.var.postgres.database>${env.POSTGRES_DATABASE}</liberty.var.postgres.database>
-        <!--suppress UnresolvedMavenProperty -->
-        <liberty.var.postgres.user>${env.POSTGRES_USER}</liberty.var.postgres.user>
-        <!--suppress UnresolvedMavenProperty -->
-        <liberty.var.postgres.pass>${env.POSTGRES_PASS}</liberty.var.postgres.pass>
+        <liberty.var.postgres.host>database</liberty.var.postgres.host>
     </properties>
 
     <build>
