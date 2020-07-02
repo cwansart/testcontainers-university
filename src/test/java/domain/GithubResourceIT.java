@@ -2,7 +2,6 @@ package domain;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.hamcrest.CoreMatchers;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
@@ -24,8 +23,7 @@ import java.io.File;
 
 /**
  * EXERCISE 4: Use MockServer to mock external servers.
- * <p>
- * HOWTO:
+ * <p> * HOWTO:
  * TO BE DONE @cwansart
  */
 @RunWith(JUnit4.class)
@@ -59,16 +57,19 @@ public class GithubResourceIT {
     private static String serviceEndpoint;
 
     @BeforeClass
-    public static void setupMockServer() {
+    public static void init() {
+
         String response = "{\n" +
-            "  \"id\": 269433808,\n" +
-            "  \"node_id\": \"MDEwOlJlcG9zaXRvcnkyNjk0MzM4MDg=\",\n" +
+            "  \"id\": 9999999,\n" +
+            "  \"node_id\": \"abcdefghijklmnopqrstuvwxyz\",\n" +
             "  \"name\": \"testcontainers-university\",\n" +
-            "  \"full_name\": \"cwansart/testcontainers-university\"" +
+            "  \"full_name\": \"testcontainers-university\"" +
             "}";
         new MockServerClient(MOCK_SERVER_CONTAINER.getContainerIpAddress(), MOCK_SERVER_CONTAINER.getServerPort())
             .when(HttpRequest.request().withPath("/repos/cwansart/testcontainers-university"))
-            .respond(HttpResponse.response().withBody(response));
+            .respond(HttpResponse.response().withHeader("Content-Type", "application/json").withBody(response));
+
+        MOCK_SERVER_CONTAINER.getBoundPortNumbers().forEach(p -> System.out.println("#### PORT=" + p));
 
         String host = TODO_SERVICE.getContainerIpAddress();
         Integer port = TODO_SERVICE.getMappedPort(9080);
@@ -80,12 +81,13 @@ public class GithubResourceIT {
 
         RestAssured.given()
             .accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
             .when()
             .get(serviceEndpoint + "/api/github")
             .andReturn().then()
-            .body("id", CoreMatchers.is(269433808))
-            .body("node_id", CoreMatchers.is("MDEwOlJlcG9zaXRvcnkyNjk0MzM4MDg="))
+            .body("id", CoreMatchers.is(9999999))
+            .body("node_id", CoreMatchers.is("abcdefghijklmnopqrstuvwxyz"))
             .body("name", CoreMatchers.is("testcontainers-university"))
-            .body("full_name", CoreMatchers.is("cwansart/testcontainers-university"));
+            .body("full_name", CoreMatchers.is("testcontainers-university"));
     }
 }

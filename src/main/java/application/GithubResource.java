@@ -18,9 +18,10 @@ import java.security.cert.X509Certificate;
 @Path("/github")
 public class GithubResource {
 
-private static final String URL = System.getenv("IS_CONTAINERIZED") == null ?
-    "https://api.github.com/repos/cwansart/testcontainers-university" :
-    "http://mockserver/repos/cwansart/testcontainers-university";
+  // TODO: perhaps read from properties file?
+  private static final String URL = System.getenv("IS_CONTAINERIZED") == null ?
+      "https://api.github.com/repos/cwansart/testcontainers-university" :
+      "http://mockserver:1080/repos/cwansart/testcontainers-university";
 
   private final WebTarget target;
 
@@ -58,5 +59,4 @@ private static final String URL = System.getenv("IS_CONTAINERIZED") == null ?
 
     return Response.ok(githubResponse).build();
   }
-
 }
