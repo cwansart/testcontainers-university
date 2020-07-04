@@ -18,5 +18,5 @@ $ docker-compose -f docker-compose.db.yml up
 
 Then you can start the application via:
 ```bash
-$ mvn -Dliberty.var.postgres_host=localhost liberty:run
+$ mvn -Plocalhost liberty:run
 ```

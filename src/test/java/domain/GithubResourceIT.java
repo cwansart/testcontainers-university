@@ -45,12 +45,11 @@ public class GithubResourceIT {
             .withDockerfileFromBuilder(builder -> builder
                 .from("openjdk:8-jre-alpine")
                 .add("target/todo-service.jar", "/opt/todo-service.jar")
-                .entryPoint("exec java -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -jar /opt/todo-service.jar")
+                .entryPoint("exec java -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -jar /opt/todo-service.jar -DisContainerized")
                 .build())
             .withFileFromFile("target/todo-service.jar", new File("target/todo-service.jar")))
         .withExposedPorts(9080)
         .withNetwork(NETWORK)
-        .withEnv("IS_CONTAINERIZED", "true")
         .dependsOn(MOCK_SERVER_CONTAINER)
         .withLogConsumer(new Slf4jLogConsumer(LOG));
 
