@@ -23,8 +23,11 @@ import java.io.File;
 
 /**
  * EXERCISE 4: Use MockServer to mock external servers.
- * <p> * HOWTO:
- * TO BE DONE @cwansart
+ * * HOWTO:
+ * 1. Add a MockServerContainer with @ClassRule toe the test class.
+ * 2. Add a "Network", assign both containers to it and make sure to add a network alias "mockserver" to the MockServerContainer.
+ * 3. Let the TODO_SERVICE wait for the MockServerContainer.
+ * 4. Configure the MockServerClient and thus the MockServer expectation for a call to the route "/repos/cwansart/testcontainers-university".
  */
 @RunWith(JUnit4.class)
 public class GithubResourceIT {
@@ -81,7 +84,7 @@ public class GithubResourceIT {
             .contentType(ContentType.JSON)
             .when()
             .get(serviceEndpoint + "/api/github")
-            .andReturn().then()
+            .then()
             .body("id", CoreMatchers.is(9999999))
             .body("node_id", CoreMatchers.is("abcdefghijklmnopqrstuvwxyz"))
             .body("name", CoreMatchers.is("testcontainers-university"))
