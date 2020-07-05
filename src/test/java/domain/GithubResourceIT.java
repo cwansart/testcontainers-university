@@ -68,8 +68,6 @@ public class GithubResourceIT {
             .when(HttpRequest.request().withPath("/repos/cwansart/testcontainers-university"))
             .respond(HttpResponse.response().withHeader("Content-Type", "application/json").withBody(response));
 
-        MOCK_SERVER_CONTAINER.getBoundPortNumbers().forEach(p -> System.out.println("#### PORT=" + p));
-
         String host = TODO_SERVICE.getContainerIpAddress();
         Integer port = TODO_SERVICE.getMappedPort(9080);
         serviceEndpoint = String.format("http://%s:%s/todo-list-service", host, port);
