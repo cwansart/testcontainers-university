@@ -43,7 +43,7 @@ public class GithubResourceIT {
         .withLogConsumer(new Slf4jLogConsumer(LOG));
 
     @ClassRule
-    public static final GenericContainer<?> TODO_SERVICE = new GenericContainer<>(
+    public static final GenericContainer<?> API_CONTAINER = new GenericContainer<>(
         new ImageFromDockerfile()
             .withDockerfileFromBuilder(builder -> builder
                 .from("openjdk:8-jre-alpine")
@@ -71,8 +71,8 @@ public class GithubResourceIT {
             .when(HttpRequest.request().withPath("/repos/cwansart/testcontainers-university"))
             .respond(HttpResponse.response().withHeader("Content-Type", "application/json").withBody(response));
 
-        String host = TODO_SERVICE.getContainerIpAddress();
-        Integer port = TODO_SERVICE.getMappedPort(9080);
+        String host = API_CONTAINER.getContainerIpAddress();
+        Integer port = API_CONTAINER.getMappedPort(9080);
         serviceEndpoint = String.format("http://%s:%s/todo-list-service", host, port);
     }
 
