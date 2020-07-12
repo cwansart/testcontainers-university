@@ -1,5 +1,7 @@
 package application;
 
+import domain.GithubService;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
