@@ -65,7 +65,7 @@ public class TodoResourceIT {
     }
 
     @Test
-    public void AddTodoReturns201WithExpectedString() {
+    public void addTodoReturns201WithExpectedString() {
         RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("new name", "new description", false, LocalDateTime.MIN))
