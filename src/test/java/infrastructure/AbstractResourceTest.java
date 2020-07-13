@@ -12,15 +12,24 @@ import org.testcontainers.images.builder.ImageFromDockerfile;
 
 import java.io.File;
 
+/**
+ * EXERCISE 5: Singleton Container
+ * * HOWTO:
+ * 4. Make LOG, NETWORK, DATABASE_CONTAINER and API_CONTAINER private.
+ * 5. Remove the @ClassRule annotations if still present.
+ * 6. Create a static block to start DATABASE_CONTAINER and API_CONTAINER.
+ * 7. Create a `protected static String getApiUrl()` method to return the api url of API_CONTAINER.
+ * 8. Use `getApiUrl()` in the {@link application.TodoResourceSingletonIT}.
+ */
 public abstract class AbstractResourceTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(TodoResourceIT.class);
 
-  public static final Network network = Network.newNetwork();
+  private static final Network NETWORK = Network.newNetwork();
 
   private static final PostgreSQLContainer<?> DATABASE_CONTAINER = new PostgreSQLContainer<>()
       .withExposedPorts(5432)
-      .withNetwork(network)
+      .withNetwork(NETWORK)
       .withNetworkAliases("database")
       .withUsername("postgres")
       .withPassword("postgres")
@@ -40,7 +49,7 @@ public abstract class AbstractResourceTest {
               .build())
           .withFileFromFile("target/todo-service.jar", new File("target/todo-service.jar")))
       .withExposedPorts(9080)
-      .withNetwork(network)
+      .withNetwork(NETWORK)
       .dependsOn(DATABASE_CONTAINER)
       .withLogConsumer(new Slf4jLogConsumer(LOG));
 

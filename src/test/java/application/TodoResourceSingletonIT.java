@@ -15,7 +15,9 @@ import static org.hamcrest.Matchers.contains;
 /**
  * EXERCISE 5: Singleton Container
  * * HOWTO:
- * to be done
+ * 1. Move LOG, NETWORK, DATABASE_CONTAINER and API_CONTAINER to {@link AbstractResourceTest}.
+ * 2. Extend this class with {@link AbstractResourceTest}.
+ * 3. Continute in {@link AbstractResourceTest}.
  */
 @RunWith(JUnit4.class)
 public class TodoResourceSingletonIT extends AbstractResourceTest {

@@ -54,3 +54,18 @@ Todos:
 2. Add a "Network", assign both containers to it and make sure to add a network alias "mockserver" to the MockServerContainer.
 3. Let the TODO_SERVICE wait for the MockServerContainer.
 4. Configure the MockServerClient and thus the MockServer expectation for a call to the route "/repos/cwansart/testcontainers-university".
+
+### Exercise 5
+
+The exercise can be found in [TodoResourceSingletonIT](src/test/java/application/TodoResourceSingletonIT.java) and 
+[AbstractResourceTest](src/test/java/infrastructure/AbstractResourceTest.java).
+
+Todos:
+1. Move LOG, NETWORK, DATABASE_CONTAINER and API_CONTAINER to {@link AbstractResourceTest}.
+2. Extend this class with {@link AbstractResourceTest}.
+3. Continute in {@link AbstractResourceTest}.
+4. Make LOG, NETWORK, DATABASE_CONTAINER and API_CONTAINER private.
+5. Remove the @ClassRule annotations if still present.
+6. Create a static block to start DATABASE_CONTAINER and API_CONTAINER.
+7. Create a `protected static String getApiUrl()` method to return the api url of API_CONTAINER.
+8. Use `getApiUrl()` in the {@link application.TodoResourceSingletonIT}.
