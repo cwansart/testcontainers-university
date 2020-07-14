@@ -7,16 +7,14 @@ You can find all exercises when you do a fulltext search for `EXERCISE`. There i
 
 ## Overview
 
-1. [EXERCISE 1: TodoRepository integration test with database testcontainer (JUnit 4)](domain/TodoRepositoryIT.java)
-2. [EXERCISE 2: HelloWorld cucumber test with manual container management (JUnit 4)](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceCucumberIT.java)
-3. [EXERCISE 3: DbUnit persistence test with Postgres DB (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/domain/TodoRepositoryIT.java)
-4. [EXERCISE 4: Todo-List integration test with two testcontainers (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java)
-5. [EXERCISE 5: Todo-List integration test with DockerCompose (JUnit 4)](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java)
-6. [EXERCISE 6: TodoGatewayResource integration test with Mockserver (JUnit 5)](todo-list/todo-list-gateway/src/test/java/de/openknowledge/projects/todolist/gateway/application/TodoGatewayResourceIT.java)
+1. [EXERCISE 1: TodoRepository integration test with database testcontainer](src/test/java/application/TodoResourceIT.java)
+1. [EXERCISE 2: TodoResource integration test with database and api testcontainers](src/test/java/application/TodoResourceIT.java)
+3. [EXERCISE 3: DbUnit persistence test with Postgres DB](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/domain/TodoRepositoryIT.java)
+4. [EXERCISE 4: MockServer integration](src/test/java/domain/GithubResourceIT.java)
 
 ### Exercise 1
 
-The exercise can be found in [TodoRepositoryIT](domain/TodoRepositoryIT.java).
+The exercise can be found in [TodoRepositoryIT](src/test/java/domain/TodoRepositoryIT.java).
 
 Todos:
 1. Create a `PostgreSQLContainer` instance
@@ -25,15 +23,14 @@ Todos:
 
 ### Exercise 2
 
-The exercise can be found in [HelloWorldResourceCucumberIT](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceCucumberIT.java)
-while the implementation has to be done in [hello-world/Dockerfile](hello-world/Dockerfile) and in
-[HelloWorldResourceCucumberTestContainerBaseClass.java](hello-world/src/test/java/de/openknowledge/projects/helloworld/HelloWorldResourceCucumberTestContainerBaseClass.java)
+The exercise can be found in [TodoResourceIT](src/test/java/application/TodoResourceIT.java).
 
 Todos:
-1. prepare `Dockerfile`
-2. add `GenericContainer` with `ImageFromDockerfile`
-3. call start/stop
-4. get host and port from container
+1. Create a testcontainers network.
+2. Create a `PostgreSQLContainer` instance like in exercise 1. Use the network alias "database" for this container.
+3. Create another container with the API as image. Use ImageFromDockerfile().withDockerfileFromBuilder(...) with data 
+provided in [TodoResourceIT](src/test/java/application/TodoResourceIT.java).
+4. Run the test
 
 ### Exercise 3
 
@@ -50,33 +47,25 @@ Todos:
 
 ### Exercise 4
 
-The exercise can be found in [TodoResourceIT.java](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java).
-
-**Note**: Exercise 5 is also in the same file. 
+The exercise can be found in [GithubResourceIT.java](src/test/java/domain/GithubResourceIT.java).
 
 Todos:
-1. add `Network` to link the two testcontainers
-2. add `FixedHostGenericContainer` with postgres image (name = database)
-3. add `GenericContainer` with _todo-list-service_ image (name = service)
-4. get host and port from container
+1. Add a MockServerContainer with @ClassRule toe the test class.
+2. Add a "Network", assign both containers to it and make sure to add a network alias "mockserver" to the MockServerContainer.
+3. Let the TODO_SERVICE wait for the MockServerContainer.
+4. Configure the MockServerClient and thus the MockServer expectation for a call to the route "/repos/cwansart/testcontainers-university".
 
 ### Exercise 5
 
-The exercise can be found in [TodoResourceIT.java](todo-list/todo-list-service/src/test/java/de/openknowledge/projects/todolist/service/application/TodoResourceIT.java).
+The exercise can be found in [TodoResourceSingletonIT](src/test/java/application/TodoResourceSingletonIT.java) and 
+[AbstractResourceTest](src/test/java/infrastructure/AbstractResourceTest.java).
 
 Todos:
-5. set up `DockerCompose` Container
-6. replace `GenericContainer` with `DockerComposeContainer`
-7. override JDBC Url
-8. get host and port from container
-
-### Exercise 6
-
-The exercise can be found in [TodoGatewayResourceIT.java](todo-list/todo-list-gateway/src/test/java/de/openknowledge/projects/todolist/gateway/application/TodoGatewayResourceIT.java).
-
-Todos:
-1. add `@Testcontainers` annotation to test class
-2. add `Network` to link the two testcontainers
-3. add `MockServerContainer`
-4. add `GenericContainer` with _todo-list-gateway_ image
-5. get host and port from gateway container
+1. Move LOG, NETWORK, DATABASE_CONTAINER and API_CONTAINER to {@link AbstractResourceTest}.
+2. Extend this class with {@link AbstractResourceTest}.
+3. Continute in {@link AbstractResourceTest}.
+4. Make LOG, NETWORK, DATABASE_CONTAINER and API_CONTAINER private.
+5. Remove the @ClassRule annotations if still present.
+6. Create a static block to start DATABASE_CONTAINER and API_CONTAINER.
+7. Create a `protected static String getApiUrl()` method to return the api url of API_CONTAINER.
+8. Use `getApiUrl()` in the {@link application.TodoResourceSingletonIT}.
