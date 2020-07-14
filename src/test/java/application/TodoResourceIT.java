@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import java.time.LocalDateTime;
 
 /**
- * EXERCISE 2: API test with a Postgres DB and an application testcontainer (JUnit 4)
+ * EXERCISE 2: API test with Postgres DB and API testcontainers (JUnit 4)
  * <p>
  * HOWTO:
  * 1. add `@RunWith(JUnit4.class)` annotation to test class
