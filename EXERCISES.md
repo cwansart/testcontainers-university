@@ -27,9 +27,8 @@ The exercise can be found in [TodoResourceIT](src/test/java/application/TodoReso
 
 Todos:
 1. Create a testcontainers network.
-2. Create a `PostgreSQLContainer` instance like in exercise 1. Use the network alias "database" for this container.
-3. Create another container with the API as image. Use ImageFromDockerfile().withDockerfileFromBuilder(...) with data 
-provided in [TodoResourceIT](src/test/java/application/TodoResourceIT.java).
+2. Create a `PostgreSQLContainer` instance like in exercise 1.
+3. Create another container with the API as image. For more detailed steps have a lokk at [TodoResourceIT](src/test/java/application/TodoResourceIT.java).
 4. Run the test
 
 ### Exercise 3
