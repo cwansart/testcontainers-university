@@ -21,6 +21,17 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * EXERCISE 3.1: Use HTTP wait strategy to wait for the service
+ * HOWTO:
+ * 1. Find the health check of the service
+ * 2. Add the waitingFor() method to the api container builder
+ * 3. Inside the waitingFor() method add the Wait object with the correct wait strategies
+ *
+ * *** tips ***
+ * - you should wait for a http endpoint
+ * - you should check the status code
+ */
 @RunWith(JUnit4.class)
 public class TodoResourceHTTPWaitIT {
 
@@ -53,10 +64,7 @@ public class TodoResourceHTTPWaitIT {
       .withExposedPorts(9080)
       .withNetwork(network)
       .dependsOn(DATABASE_CONTAINER)
-      .withLogConsumer(new Slf4jLogConsumer(LOG))
-      .waitingFor(Wait
-          .forHttp("/health/ready")
-          .forStatusCode(200));
+      .withLogConsumer(new Slf4jLogConsumer(LOG));
 
   @BeforeClass
   public static void getApiUrl() {
