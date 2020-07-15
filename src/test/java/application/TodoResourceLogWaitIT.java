@@ -24,6 +24,17 @@ import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * EXERCISE 3.2: Use log wait strategy to wait for the service
+ * HOWTO:
+ * 1. Find the log message which indicates that the services are running
+ * 2. Add the waitingFor() method to both container builder
+ * 3. Inside the waitingFor() method for both services add the Wait object with the correct wait strategies
+ *
+ * *** tips ***
+ * - you should wait for a log message
+ * - log messages are compared with regex
+ */
 @RunWith(JUnit4.class)
 public class TodoResourceLogWaitIT {
 
@@ -70,6 +81,19 @@ public class TodoResourceLogWaitIT {
         API_CONTAINER.followOutput(waitingConsumer, OutputFrame.OutputType.STDOUT);
     }
 
+    /**
+     * EXERCISE 3.3: Use log consumer to wait for a log after the stsart
+     * HOWTO:
+     * 1. Find the log message which indicates that the service added a todo
+     * 2. declare a waitingconsumer
+     * 3. before all tests follow the stdout output of the API_CONTAINER with the waitingConsumer
+     * 4. after the http request was send check if the 'Add todo' log was send to stdout
+     *   4.1. the waitconsumer has to waitUntil the Utf8String of the frame contains the correct log
+     *   4.2 use a appropriate timeunit
+     *
+     * *** tips ***
+     * - the OutputFrame class has multiple output types
+     */
     @Test
     public void AddTodoReturns201WithExpectedString() throws TimeoutException {
         RestAssured
