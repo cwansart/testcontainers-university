@@ -16,7 +16,7 @@
 
         <!-- Dependencies -->
         <version.jakarta-ee>8.0.0</version.jakarta-ee>
-        <version.microprofile>3.2</version.microprofile>
+        <version.microprofile>3.3</version.microprofile>
         <version.slf4j>1.7.30</version.slf4j>
         <version.mockito>3.3.3</version.mockito>
         <version.database-rider>1.15.2</version.database-rider>
