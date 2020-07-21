@@ -24,23 +24,15 @@ import java.io.File;
 /**
  * EXERCISE 4: Use MockServer to mock external servers.
  * * HOWTO:
- * 1. Add a MockServerContainer with @ClassRule toe the test class.
+ * 1. Add a MockServerContainer with @ClassRule to the test class.
  * 2. Add a "Network", assign both containers to it and make sure to add a network alias "mockserver" to the MockServerContainer.
- * 3. Let the TODO_SERVICE wait for the MockServerContainer.
+ * 3. Let the API_CONTAINER wait for the MockServerContainer.
  * 4. Configure the MockServerClient and thus the MockServer expectation for a call to the route "/repos/cwansart/testcontainers-university".
  */
 @RunWith(JUnit4.class)
 public class GithubResourceIT {
 
     private static final Logger LOG = LoggerFactory.getLogger(GithubResourceIT.class);
-
-    private static final Network NETWORK = Network.newNetwork();
-
-    @ClassRule
-    public static final MockServerContainer MOCK_SERVER_CONTAINER = new MockServerContainer()
-        .withNetwork(NETWORK)
-        .withNetworkAliases("mockserver")
-        .withLogConsumer(new Slf4jLogConsumer(LOG));
 
     @ClassRule
     public static final GenericContainer<?> API_CONTAINER = new GenericContainer<>(
@@ -52,8 +44,6 @@ public class GithubResourceIT {
                 .build())
             .withFileFromFile("target/todo-service.jar", new File("target/todo-service.jar")))
         .withExposedPorts(9080)
-        .withNetwork(NETWORK)
-        .dependsOn(MOCK_SERVER_CONTAINER)
         .withLogConsumer(new Slf4jLogConsumer(LOG));
 
     private static String serviceEndpoint;
@@ -67,9 +57,6 @@ public class GithubResourceIT {
             "  \"name\": \"testcontainers-university\",\n" +
             "  \"full_name\": \"testcontainers-university\"" +
             "}";
-        new MockServerClient(MOCK_SERVER_CONTAINER.getContainerIpAddress(), MOCK_SERVER_CONTAINER.getServerPort())
-            .when(HttpRequest.request().withPath("/repos/cwansart/testcontainers-university"))
-            .respond(HttpResponse.response().withHeader("Content-Type", "application/json").withBody(response));
 
         String host = API_CONTAINER.getContainerIpAddress();
         Integer port = API_CONTAINER.getMappedPort(9080);
