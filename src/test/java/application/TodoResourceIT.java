@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  * 1. add `@RunWith(JUnit4.class)` annotation to test class
  * 2. create a new network instance
  * 3. create a `PostgreSQLContainer` with database name `postgres`, username `postgres` and password `postgres`
- * 4. add init script with path `container/init.sql` and to the database testcontainer
+ * 4. add init script with path `init/init.sql` and to the database testcontainer
  * 5. add the network instance to the database testcontainer
  * 6. add Slf4jLogConsumer to the database testcontainer
  * 7. create a new generic container and provide a custom image as constructor argument
@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
  *      entryPoint("exec java -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -jar /opt/todo-service.jar")
  * 9. add an exposed port: 9080
  * 10. add a depends on method to the API testcontainer. guess which other testcontainer the API testcontainer depends on.
- * 11. add Slf4jLogConsumer to the database testcontainer.
+ * 11. add Slf4jLogConsumer to the API testcontainer.
  * 12. fill the getApiUrl method -> get the API testcontainer IP address and port and construct a valid API url. the API uri is '/todo-list-service'.
  * 13. run the test.
  */
