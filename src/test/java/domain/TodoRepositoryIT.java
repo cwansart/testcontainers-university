@@ -23,7 +23,7 @@ import java.util.Map;
  * HOWTO:
  * 1. add `@RunWith(JUnit4.class)` annotation to test class
  * 2. add `PostgreSQLContainer` with databasename `postgres`, username `postgres` and password `postgres`
- * 3. add init script with path `container/init.sql` to container
+ * 3. add init script with path `init/init.sql` to container
  * 4. add Slf4jLogConsumer to container
  * 4. add JdbcUrl, DriverClassName, Username and Password to EntityManagerProviderProperties
  * 5. create an EntityManagerProvider instance with unitName `postgres-db` and add the EntityManagerProviderProperties
