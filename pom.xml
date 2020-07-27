@@ -19,7 +19,7 @@
         <version.microprofile>3.2</version.microprofile>
         <version.slf4j>1.7.30</version.slf4j>
         <version.mockito>3.3.3</version.mockito>
-        <version.database-rider>1.15.2</version.database-rider>
+        <version.database-rider>1.16.0</version.database-rider>
         <version.eclipselink>2.7.7</version.eclipselink>
         <version.testcontainers>1.14.3</version.testcontainers>
         <version.mockserver-client-java>5.5.4</version.mockserver-client-java>
