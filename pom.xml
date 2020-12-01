@@ -33,7 +33,7 @@
         <version.open-liberty>20.0.0.6</version.open-liberty>
         <version.liberty-maven-plugin>3.2</version.liberty-maven-plugin>
         <version.maven.versions.plugin>2.7</version.maven.versions.plugin>
-        <version.war-plugin>3.3.0</version.war-plugin>
+        <version.war-plugin>3.3.1</version.war-plugin>
         <version.surefire-plugin>3.0.0-M5</version.surefire-plugin>
         <version.failsafe-plugin>3.0.0-M5</version.failsafe-plugin>
         <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
