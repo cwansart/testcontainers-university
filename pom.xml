@@ -12,38 +12,120 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- Dependencies -->
+        <version.jakarta-ee>8.0.0</version.jakarta-ee>
+        <version.microprofile>3.3</version.microprofile>
         <version.slf4j>1.7.30</version.slf4j>
         <version.mockito>3.4.0</version.mockito>
-        <version.database-rider>1.15.2</version.database-rider>
+        <version.database-rider>1.18.0</version.database-rider>
         <version.eclipselink>2.7.7</version.eclipselink>
         <version.testcontainers>1.14.3</version.testcontainers>
-        <version.postgres>42.2.14</version.postgres>
+        <version.mockserver-client-java>5.5.4</version.mockserver-client-java>
+        <version.postgresql>42.2.14</version.postgresql>
         <version.javax>8.0.1</version.javax>
         <version.jackson-databsind>2.11.1</version.jackson-databsind>
-        <version.junit>4.13</version.junit>
+        <version.junit>4.13.1</version.junit>
         <version.rest-assured>4.3.1</version.rest-assured>
 
         <!-- Plugins -->
+        <version.open-liberty>20.0.0.6</version.open-liberty>
+        <version.liberty-maven-plugin>3.2</version.liberty-maven-plugin>
         <version.maven.versions.plugin>2.7</version.maven.versions.plugin>
-        <version.war-plugin>3.3.0</version.war-plugin>
+        <version.war-plugin>3.3.1</version.war-plugin>
         <version.surefire-plugin>3.0.0-M5</version.surefire-plugin>
+        <version.failsafe-plugin>3.0.0-M5</version.failsafe-plugin>
+        <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
     </properties>
 
     <build>
+        <finalName>todo-service</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war-plugin}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${version.maven-dependency-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>copy-postgresql-dependency</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/
+                            </outputDirectory>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <useBaseVersion>true</useBaseVersion>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.postgresql</groupId>
+                                    <artifactId>postgresql</artifactId>
+                                    <version>${version.postgresql}</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.openliberty.tools</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+                <version>3.3.2</version>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <assemblyArtifact>
+                        <groupId>io.openliberty</groupId>
+                        <artifactId>openliberty-runtime</artifactId>
+                        <version>${version.open-liberty}</version>
+                        <type>zip</type>
+                    </assemblyArtifact>
+                    <deployPackages>project</deployPackages>
+                    <include>runnable</include>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>create-server</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>create</goal>
+                            <goal>install-feature</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>package-server</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${version.surefire-plugin}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${version.failsafe-plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -54,11 +136,39 @@
     </build>
 
     <dependencies>
+        <!-- Java EE -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${version.javax}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Microprofile -->
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>${version.microprofile}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Postgres -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${version.postgres}</version>
+            <version>${version.postgresql}</version>
         </dependency>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+        <!-- Testing -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
@@ -72,6 +182,17 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mockserver</artifactId>
+            <version>${version.testcontainers}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-client-java</artifactId>
+            <version>${version.mockserver-client-java}</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <version>${version.eclipselink}</version>
@@ -82,22 +203,6 @@
             <artifactId>rider-core</artifactId>
             <version>${version.database-rider}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>${version.javax}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${version.slf4j}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${version.slf4j}</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -144,4 +249,22 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+<profiles>
+    <profile>
+        <id>containerized</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <liberty.var.postgres.host>database</liberty.var.postgres.host>
+        </properties>
+    </profile>
+    <profile>
+        <id>localhost</id>
+        <properties>
+            <liberty.var.postgres.host>localhost</liberty.var.postgres.host>
+        </properties>
+    </profile>
+</profiles>
 </project>

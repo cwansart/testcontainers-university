@@ -2,292 +2,65 @@ package application;
 
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDateTime;
 
-@RunWith(JUnit4.class)
+/**
+ * EXERCISE 2: API test with Postgres DB and API testcontainers (JUnit 4)
+ * <p>
+ * HOWTO:
+ * 1. add `@RunWith(JUnit4.class)` annotation to test class
+ * 2. create a new network instance
+ * 3. create a `PostgreSQLContainer` with database name `postgres`, username `postgres` and password `postgres`
+ * 4. add init script with path `init/init.sql` and to the database testcontainer
+ * 5. add the network instance to the database testcontainer
+ * 6. add Slf4jLogConsumer to the database testcontainer
+ * 7. create a new generic container and provide a custom image as constructor argument
+ * 8. use the ImageFromDockerfile class with the Dockerfile builder to create the custom image
+ * 8. use the builder methods like:
+ *      from("openjdk:8-jre-alpine")
+ *      add("target/todo-service.jar", "/opt/todo-service.jar")
+ *      entryPoint("exec java -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -jar /opt/todo-service.jar")
+ * 9. add an exposed port: 9080
+ * 10. add a depends on method to the API testcontainer. guess which other testcontainer the API testcontainer depends on.
+ * 11. add Slf4jLogConsumer to the API testcontainer.
+ * 12. fill the getApiUrl method -> get the API testcontainer IP address and port and construct a valid API url. the API uri is '/todo-list-service'.
+ * 13. run the test.
+ */
+
 public class TodoResourceIT {
 
-    @Test
-    public void getTodosShouldReturn200() {
-        RestAssured
-                .when()
-                .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/")
-                .then()
-                .statusCode(200)
-                .body("size()", Matchers.is(3))
-                .body("[0].id", Matchers.equalTo(1))
-                .body("[0].name", Matchers.equalTo("Martin"))
-                .body("[0].description", Matchers.equalTo("ABC"))
-                .body("[0].status", Matchers.equalTo(true))
-            .body("[0].dueDate", Matchers.equalTo("2020-01-10T07:30"));
+    private static String API_URL;
+
+    private static final Logger LOG = LoggerFactory.getLogger(TodoResourceIT.class);
+
+    //public static Network network =
+
+    /*@ClassRule
+    public static PostgreSQLContainer<?> DATABASE_CONTAINER = */
+
+    /*@ClassRule
+    public static GenericContainer<?> API_CONTAINER = new GenericContainer<>(...);*/
+
+    @BeforeClass
+    public static void getApiUrl() {
+        //API_URL =
     }
 
     @Test
-    public void GetTodoByIdReturns200WithExpectedTodo() {
-        RestAssured
-            .when()
-            .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
-            .then()
-            .statusCode(200)
-            .body("id", Matchers.equalTo(1))
-            .body("name", Matchers.equalTo("Martin"))
-            .body("description", Matchers.equalTo("ABC"))
-            .body("status", Matchers.equalTo(true))
-            .body("dueDate", Matchers.equalTo("2020-01-10T07:30"));
-    }
-
-    @Test
-    public void GetTodoByIdReturns404() {
-        RestAssured
-            .when()
-            .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 100)
-            .then()
-            .statusCode(404);
-    }
-
-    @Test
-    public void GetTodoByIdReturns400ForNegativeId() {
-        RestAssured
-            .when()
-            .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", -1)
-            .then()
-            .statusCode(400)
-            .body(Matchers.equalTo("[{\"errorCode\":\"NEGATIVE_TODO_ID\",\"message\":\"todoId must be greater than or equal to 0\"}]"));
-    }
-
-    @Test
-    public void UpdateTodoReturns204() {
-        RestAssured
-            .given()
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(new BaseTodoDTO("new name", "new description", false, LocalDateTime.MIN.toString()))
-            .when()
-            .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 2)
-            .then()
-            .statusCode(204);
-    }
-
-    @Test
-    public void UpdateTodoReturns404ForNonExistingId() {
-        RestAssured
-            .given()
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(new BaseTodoDTO("new name 2", "new description 2", false, LocalDateTime.MIN.toString()))
-            .when()
-            .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 100)
-            .then()
-            .statusCode(404);
-    }
-
-    @Test
-    public void UpdateTodoReturns404ForNegativeId() {
-        RestAssured
-                .given()
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("new name 2", "new description 2", false, LocalDateTime.MIN.toString()))
-                .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", -100)
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"NEGATIVE_TODO_ID\",\"message\":\"todoId must be greater than or equal to 0\"}]"));
-    }
-
-    @Test
-    public void UpdateTodoReturns400NoBaseTodo() {
-        RestAssured.given()
-            .contentType(MediaType.APPLICATION_JSON)
-            .when()
-            .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
-            .then()
-            .statusCode(400)
-            .body(Matchers.equalTo("[{\"errorCode\":\"BASETODO_NULL\",\"message\":\"baseTodo must not be null\"}]"));
-    }
-
-  @Test
-public void UpdateTodoReturns400ForNameIsNull() {
-    RestAssured.given()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(new BaseTodoDTO(null, "new description", false, LocalDateTime.MIN.toString()))
-            .when()
-            .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
-            .then()
-            .statusCode(400)
-            .body(Matchers.equalTo("[{\"errorCode\":\"TITLE_NULL\",\"message\":\"title must not be null\"}]"));
-  }
-
-    @Test
-    public void UpdateTodoReturns400ForNameIsTooShort() {
+    public void addTodoReturns201WithExpectedString() {
         RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("", "new description", false, LocalDateTime.MIN.toString()))
+                .body(new BaseTodoDTO("new name", "new description", false, LocalDateTime.MIN))
                 .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+                .post(API_URL + "/api/todos")
                 .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"TITLE_SIZE\",\"message\":\"title size must be between 1 and 30\"}]"));
-    }
-
-    @Test
-    public void UpdateTodoReturns400ForDueDateIsNull() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("new name", "new description", false, null))
-                .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"DUEDATE_NULL\",\"message\":\"dueDate must not be null\"}]"));
-    }
-
-    @Test
-    public void UpdateTodoReturns400ForDescriptionIsTooLong() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("new name", "new descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew description", false, LocalDateTime.MIN.toString()))
-                .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"DESCRIPTION_SIZE\",\"message\":\"description size must be between 0 and 500\"}]"));
-    }
-
-    @Test
-    public void UpdateTodoReturns400ForMultipleErrors() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("", "new descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew description", false, null))
-                .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
-                .then()
-                .statusCode(400)
-                .body(Matchers.containsString("{\"errorCode\":\"TITLE_SIZE\",\"message\":\"title size must be between 1 and 30\"}"))
-                .body(Matchers.containsString("{\"errorCode\":\"DESCRIPTION_SIZE\",\"message\":\"description size must be between 0 and 500\"}"))
-                .body(Matchers.containsString("{\"errorCode\":\"DUEDATE_NULL\",\"message\":\"dueDate must not be null\"}"));
-    }
-
-    @Test
-    public void AddTodoReturns201WithExpectedString() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("new name", "new description", false, LocalDateTime.MIN.toString()))
-                .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
-                .then()
-                .contentType(MediaType.TEXT_PLAIN)
                 .statusCode(201)
-                .body(Matchers.equalTo("/api/todos/4"));
+                .header("location", Matchers.equalTo(API_URL + "/api/todos/1"));
     }
-
-    @Test
-    public void AddTodoReturns400ForNoBaseTodo() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"BASETODO_NULL\",\"message\":\"baseTodo must not be null\"}]"));
-    }
-
-    @Test
-    public void AddTodoReturns400ForNameIsNull() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO(null, "new description", false, LocalDateTime.MIN.toString()))
-                .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"TITLE_NULL\",\"message\":\"title must not be null\"}]"));
-    }
-
-    @Test
-    public void AddTodoReturns400ForNameIsTooShort() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("", "new description", false, LocalDateTime.MIN.toString()))
-                .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"TITLE_SIZE\",\"message\":\"title size must be between 1 and 30\"}]"));
-    }
-
-    @Test
-    public void AddTodoReturns400ForDueDateIsNull() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("new name", "new description", false, null))
-                .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"DUEDATE_NULL\",\"message\":\"dueDate must not be null\"}]"));
-    }
-
-    @Test
-    public void AddTodoReturns400ForDescriptionIsTooLong() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("new name", "new descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew description", false, LocalDateTime.MIN.toString()))
-                .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"DESCRIPTION_SIZE\",\"message\":\"description size must be between 0 and 500\"}]"));
-    }
-
-    @Test
-    public void AddTodoReturns400ForMultipleErrors() {
-        RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new BaseTodoDTO("", "new descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew description", false, null))
-                .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
-                .then()
-                .statusCode(400)
-                .body(Matchers.containsString("{\"errorCode\":\"TITLE_SIZE\",\"message\":\"title size must be between 1 and 30\"}"))
-                .body(Matchers.containsString("{\"errorCode\":\"DESCRIPTION_SIZE\",\"message\":\"description size must be between 0 and 500\"}"))
-                .body(Matchers.containsString("{\"errorCode\":\"DUEDATE_NULL\",\"message\":\"dueDate must not be null\"}"));
-    }
-
-    @Test
-    public void DeleteTodoReturns204() {
-        RestAssured
-            .given()
-            .when()
-            .delete("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
-            .then()
-            .statusCode(204);
-    }
-
-    @Test
-    public void DeleteTodoReturns404() {
-        RestAssured
-            .given()
-            .when()
-            .delete("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 100)
-            .then()
-            .statusCode(404);
-    }
-
-    @Test
-    public void DeleteTodoReturns404ForNegativeId() {
-        RestAssured
-                .given()
-                .when()
-                .delete("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", -1)
-                .then()
-                .statusCode(400)
-                .body(Matchers.equalTo("[{\"errorCode\":\"NEGATIVE_TODO_ID\",\"message\":\"todoId must be greater than or equal to 0\"}]"));
-    }
-
 }

@@ -14,9 +14,9 @@ public class ValidationErrorDTO {
 
     private static final Logger LOG = LoggerFactory.getLogger(ValidationErrorDTO.class);
 
-    public ValidationErrorDTO(final ConstraintViolation violation) {
-        Class<? extends Payload> clazz = (Class<? extends Payload>)violation.getConstraintDescriptor().getPayload().iterator().next();
-        ValidationErrorPayload payload = null;
+    public ValidationErrorDTO(final ConstraintViolation<?> violation) {
+        Class<? extends Payload> clazz = violation.getConstraintDescriptor().getPayload().iterator().next();
+        ValidationErrorPayload payload;
         try {
             payload = (ValidationErrorPayload)clazz.newInstance();
             this.errorCode = payload.getErrorCode();

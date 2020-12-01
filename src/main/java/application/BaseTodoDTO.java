@@ -1,9 +1,12 @@
 package application;
 
 import domain.TodoValidationErrorPayload;
+import infrastructure.adapters.LocalDateTimeAdapter;
 
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class BaseTodoDTO {
@@ -18,12 +21,13 @@ public class BaseTodoDTO {
   private boolean status;
 
   @NotNull(payload = TodoValidationErrorPayload.DueDateNull.class)
-  private String dueDate;
+  @JsonbTypeAdapter(LocalDateTimeAdapter.class)
+  private LocalDateTime dueDate;
 
   public BaseTodoDTO() {
   }
 
-  public BaseTodoDTO(final String name, final String description, final boolean status, final String dueDate) {
+  public BaseTodoDTO(final String name, final String description, final boolean status, final LocalDateTime dueDate) {
     this.name = name;
     this.description = description;
     this.status = status;
@@ -54,11 +58,11 @@ public class BaseTodoDTO {
     this.status = status;
   }
 
-  public String getDueDate() {
+  public LocalDateTime getDueDate() {
     return dueDate;
   }
 
-  public void setDueDate(final String dueDate) {
+  public void setDueDate(final LocalDateTime dueDate) {
     this.dueDate = dueDate;
   }
 
