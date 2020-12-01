@@ -18,7 +18,7 @@
         <version.jakarta-ee>8.0.0</version.jakarta-ee>
         <version.microprofile>3.3</version.microprofile>
         <version.slf4j>1.7.30</version.slf4j>
-        <version.mockito>3.3.3</version.mockito>
+        <version.mockito>3.4.0</version.mockito>
         <version.database-rider>1.18.0</version.database-rider>
         <version.eclipselink>2.7.7</version.eclipselink>
         <version.testcontainers>1.14.3</version.testcontainers>
